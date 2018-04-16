@@ -22,6 +22,11 @@ class JsonTest extends TestCase
 		);
 		$this->storage->clean();
 	}
+	
+	public function tearDown()
+	{
+		$this->storage->deleteFile();
+	}
 
 	public function testInsert()
 	{
@@ -85,6 +90,23 @@ class JsonTest extends TestCase
 		$this->assertNotNull($this->storage->getById(2));
 		$this->storage->delete(2);
 		$this->assertNull($this->storage->getById(2));
+	}
+	
+	public function testGetList()
+	{
+		$this->storage->insert(array(
+			'id' => 1,
+			'title' => 'item 1'
+		));
+		$this->storage->insert(array(
+			'id' => 2,
+			'title' => 'item 2'
+		));
+		
+		$list = $this->storage->getList();
+		$this->assertTrue(is_array($list));
+		$this->assertEquals(2, count($list));
+		$this->assertEquals(2, $list[1]['id']);
 	}
 	
 	public function testExceptionId()

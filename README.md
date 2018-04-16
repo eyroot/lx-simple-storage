@@ -33,7 +33,7 @@ $item2 = $this->storage->getById(2);
 $storage->update(array('title' => 'item 2 title updated'), 2);
 
 // retrieve all items
-$storage->getList();
+$list = $storage->getList();
 
 // delete item with id 1
 $storage->delete(1);
@@ -57,6 +57,7 @@ composer install
 ! in case you get the "Error: No code coverage driver is available" when running the test suite, remember to install and enable the php-xdebug extension !
 ```
 cd testing/
+mkdir data-storage
 ../vendor/bin/phpunit
 ```
 

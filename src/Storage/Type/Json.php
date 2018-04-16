@@ -159,7 +159,8 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function deleteFile()
 	{
-		return unlink($this->getFilePath());
+		return is_file($this->getFilePath()) 
+			? unlink($this->getFilePath()) : true;
 	}
 	
 	/**
