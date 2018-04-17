@@ -1,2 +1,6 @@
 vendor/
 testing/data-storage/*
+
+.buildpath
+.project
+.settings/

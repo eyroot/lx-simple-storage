@@ -8,7 +8,7 @@ abstract class StorageAbstract
 	 * @var string
 	 */
 	protected $spaceName;
-	
+
 	/**
 	 * @var array
 	 */

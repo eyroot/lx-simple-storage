@@ -12,7 +12,7 @@ class FactoryTest extends TestCase
 		$storage = StorageFactory::create(StorageFactory::TYPE_JSON, 'items');
 		$this->assertInstanceOf(StorageTypeJson::class, $storage);
 	}
-	
+
 	public function testCreateException()
 	{
 		$this->expectException(StorageException::class);

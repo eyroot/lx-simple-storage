@@ -20,7 +20,7 @@ class Json extends StorageAbstract implements StorageInterface
 		$stored[] = $data;
 		return $this->writeToFile($stored);
 	}
-	
+
 	/**
 	 * @param array $data
 	 * @param int $id
@@ -40,7 +40,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 		return $this->writeToFile($stored);
 	}
-	
+
 	/**
 	 * @param int $id
 	 * @return bool
@@ -57,7 +57,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 		return $this->writeToFile($stored);
 	}
-	
+
 	/**
 	 * @param int $id
 	 * @return null|array|mixed
@@ -73,7 +73,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param array $where
 	 * @param array $sort
@@ -83,12 +83,12 @@ class Json extends StorageAbstract implements StorageInterface
 	public function getList($where = array(), $sort = array(), $limit = array())
 	{
 		$stored = $this->readFromFile();
-		
+
 		//@TODO: implement support for additional arguments
-		
+
 		return $stored;
 	}
-	
+
 	/**
 	 * @param array $data
 	 * @return string
@@ -97,7 +97,7 @@ class Json extends StorageAbstract implements StorageInterface
 	{
 		return json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	/**
 	 * @param string $data
 	 * @param book $assoc
@@ -107,7 +107,7 @@ class Json extends StorageAbstract implements StorageInterface
 	{
 		return json_decode($data, $assoc);
 	}
-	
+
 	/**
 	 * @return string
 	 * @throws JsonException
@@ -125,7 +125,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 		return $this->options['path'] . '/' . $this->spaceName . '.json';
 	}
-	
+
 	/**
 	 * @return array|mixed
 	 */
@@ -143,7 +143,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 		return $this->decode($content);
 	}
-	
+
 	/**
 	 * @param array|mixed $data
 	 * @return bool
@@ -153,16 +153,16 @@ class Json extends StorageAbstract implements StorageInterface
 		return file_put_contents($this->getFilePath(), $this->encode($data))
 			? true : false;
 	}
-	
+
 	/**
 	 * @return bool
 	 */
 	public function deleteFile()
 	{
-		return is_file($this->getFilePath()) 
+		return is_file($this->getFilePath())
 			? unlink($this->getFilePath()) : true;
 	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -170,7 +170,7 @@ class Json extends StorageAbstract implements StorageInterface
 	{
 		return $this->writeToFile(array());
 	}
-	
+
 	/**
 	 * @throws JsonException
 	 */

@@ -11,7 +11,7 @@ class JsonTest extends TestCase
 	 * @var StorageTypeJson
 	 */
 	private $storage;
-	
+
 	public function setUp()
 	{
 		$this->storage = StorageFactory::create(
@@ -22,7 +22,7 @@ class JsonTest extends TestCase
 		);
 		$this->storage->clean();
 	}
-	
+
 	public function tearDown()
 	{
 		$this->storage->deleteFile();
@@ -38,7 +38,7 @@ class JsonTest extends TestCase
 			'id' => 2,
 			'title' => 'item 2'
 		));
-		
+
 		$item = $this->storage->getById(1);
 		$this->assertEquals('item 1', $item['title']);
 		$item = $this->storage->getById(2);
@@ -55,12 +55,12 @@ class JsonTest extends TestCase
 			'id' => 2,
 			'title' => 'item 2'
 		));
-		
+
 		$item = $this->storage->getById(1);
 		$this->assertEquals('item 1', $item['title']);
 		$item = $this->storage->getById(2);
 		$this->assertEquals('item 2', $item['title']);
-		
+
 		$this->storage->update(array('title' => 'item 2 updated'), 2);
 		$item = $this->storage->getById(2);
 		$this->assertEquals('item 2 updated', $item['title']);
@@ -68,7 +68,7 @@ class JsonTest extends TestCase
 		$item = $this->storage->getById(1);
 		$this->assertEquals('item 1 updated', $item['title']);
 	}
-	
+
 	public function testDelete()
 	{
 		$this->storage->insert(array(
@@ -79,19 +79,19 @@ class JsonTest extends TestCase
 			'id' => 2,
 			'title' => 'item 2'
 		));
-		
+
 		$item = $this->storage->getById(1);
 		$this->assertEquals('item 1', $item['title']);
 		$item = $this->storage->getById(2);
 		$this->assertEquals('item 2', $item['title']);
-		
+
 		$this->storage->delete(1);
 		$this->assertNull($this->storage->getById(1));
 		$this->assertNotNull($this->storage->getById(2));
 		$this->storage->delete(2);
 		$this->assertNull($this->storage->getById(2));
 	}
-	
+
 	public function testGetList()
 	{
 		$this->storage->insert(array(
@@ -102,13 +102,13 @@ class JsonTest extends TestCase
 			'id' => 2,
 			'title' => 'item 2'
 		));
-		
+
 		$list = $this->storage->getList();
 		$this->assertTrue(is_array($list));
 		$this->assertEquals(2, count($list));
 		$this->assertEquals(2, $list[1]['id']);
 	}
-	
+
 	public function testExceptionId()
 	{
 		$this->expectException(JsonException::class);
@@ -116,7 +116,7 @@ class JsonTest extends TestCase
 		$storage = StorageFactory::create(StorageFactory::TYPE_JSON, 'items', array());
 		$storage->getById(1);
 	}
-	
+
 	public function testExceptionPath()
 	{
 		$this->expectException(JsonException::class);
@@ -143,7 +143,7 @@ class JsonTest extends TestCase
 			'title' => 'item 1'
 		));
 	}
-	
+
 	public function testExceptionSpaceEmpty()
 	{
 		$this->expectException(JsonException::class);
@@ -157,21 +157,21 @@ class JsonTest extends TestCase
 			'title' => 'item 1'
 		));
 	}
-	
+
 	public function testDeleteFile()
 	{
 		$this->assertFileExists(TESTING_PATH_STORAGE . '/items.json');
 		$this->storage->deleteFile();
 		$this->assertFileNotExists(TESTING_PATH_STORAGE . '/items.json');
 	}
-	
+
 	public function testReadFromFile()
 	{
 		// read from inexistent file
 		$this->storage->deleteFile();
 		$this->assertFileNotExists(TESTING_PATH_STORAGE . '/items.json');
 		$this->assertEquals(array(), $this->storage->getList());
-		
+
 		// read from empty file
 		file_put_contents(TESTING_PATH_STORAGE . '/items.json', '');
 		$this->assertEquals(array(), $this->storage->getList());
