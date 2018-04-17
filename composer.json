@@ -1,4 +1,15 @@
 {
+	"name": "eyroot/lx-simple-storage",
+	"description": "A simple storage solution (JSON, etc) written in php",
+	"type": "library",
+	"keywords": ["php", "storage", "json"],
+	"license": ["GPL-3.0-only"],
+	"authors": [
+		{
+			"name": "eyroot",
+			"role": "Developer"
+        }
+    ],
 	"autoload": {
 		"psr-4": {
 			"Lx\\": "src/"
