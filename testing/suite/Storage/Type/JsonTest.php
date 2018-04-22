@@ -1,7 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+
 use Lx\Storage\Factory as StorageFactory;
+use Lx\Storage\StorageAbstract;
 use Lx\Storage\Type\Json as StorageTypeJson;
 use Lx\Storage\Type\JsonException;
 
@@ -17,7 +19,7 @@ class JsonTest extends TestCase
 		$this->storage = StorageFactory::create(
 			StorageFactory::TYPE_JSON, 'items', array(
 				'path' => TESTING_PATH_STORAGE,
-				'id' => 'id'
+				StorageAbstract::FIELD_ID => 'id'
 			)
 		);
 		$this->storage->clean();
@@ -122,7 +124,7 @@ class JsonTest extends TestCase
 		$this->expectException(JsonException::class);
 		$this->expectExceptionMessage('Storage path is not set via options');
 		$storage = StorageFactory::create(StorageFactory::TYPE_JSON, 'items', array(
-			'id' => 'id'
+			StorageAbstract::FIELD_ID => 'id'
 		));
 		$storage->insert(array(
 			'id' => 1,
@@ -135,7 +137,7 @@ class JsonTest extends TestCase
 		$this->expectException(JsonException::class);
 		$this->expectExceptionMessage('Storage path is not a directory');
 		$storage = StorageFactory::create(StorageFactory::TYPE_JSON, 'items', array(
-			'id' => 'id',
+			StorageAbstract::FIELD_ID => 'id',
 			'path' => 'dirnotfound'
 		));
 		$storage->insert(array(
@@ -149,7 +151,7 @@ class JsonTest extends TestCase
 		$this->expectException(JsonException::class);
 		$this->expectExceptionMessage('Space name is empty');
 		$storage = StorageFactory::create(StorageFactory::TYPE_JSON, '', array(
-			'id' => 'id',
+			StorageAbstract::FIELD_ID => 'id',
 			'path' => TESTING_PATH_STORAGE
 		));
 		$storage->insert(array(

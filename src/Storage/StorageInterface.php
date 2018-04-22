@@ -5,6 +5,12 @@ namespace Lx\Storage;
 interface StorageInterface
 {
 	/**
+	 * @return void
+	 * @throws \Exception
+	 */
+	public function init();
+
+	/**
 	 * @param array $data
 	 * @return bool
 	 */

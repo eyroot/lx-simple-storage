@@ -6,12 +6,13 @@ A simple storage solution (JSON for a start) written in php.
 
 ```php
 use Lx\Storage\Factory as StorageFactory;
+use Lx\Storage\StorageAbstract;
 
 // initialize storage of type json
 $storage = StorageFactory::create(
 	StorageFactory::TYPE_JSON, 'items', array(
 		'path' => '/path/directory/storage/json',
-		'id' => 'id' // name of the id field
+		StorageAbstract::FIELD_ID => 'id' // name of the id field
 	)
 );
 

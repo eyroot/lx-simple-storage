@@ -9,6 +9,15 @@ use Lx\Storage\Type\JsonException;
 class Json extends StorageAbstract implements StorageInterface
 {
 	/**
+	 * {@inheritDoc}
+	 * @see \Lx\Storage\StorageInterface::init()
+	 */
+	public function init()
+	{
+		$this->checkRequiredIdOption();
+	}
+
+	/**
 	 * @param array $data
 	 * @return bool
 	 */
@@ -32,7 +41,7 @@ class Json extends StorageAbstract implements StorageInterface
 
 		$stored = $this->readFromFile();
 		foreach ($stored as $k => $item) {
-			if ($item[$this->options['id']] === $id) {
+			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
 				foreach ($data as $fieldName => $fieldValue) {
 					$stored[$k][$fieldName] = $fieldValue;
 				}
@@ -51,7 +60,7 @@ class Json extends StorageAbstract implements StorageInterface
 
 		$stored = $this->readFromFile();
 		foreach ($stored as $k => $item) {
-			if ($item[$this->options['id']] === $id) {
+			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
 				unset($stored[$k]);
 			}
 		}
@@ -67,7 +76,7 @@ class Json extends StorageAbstract implements StorageInterface
 		$this->checkRequiredIdOption();
 
 		foreach ($this->readFromFile() as $item) {
-			if ($item[$this->options['id']] === $id) {
+			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
 				return $item;
 			}
 		}
@@ -176,7 +185,7 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	private function checkRequiredIdOption()
 	{
-		if (!isset($this->options['id'])) {
+		if (!isset($this->options[StorageAbstract::FIELD_ID])) {
 			throw new JsonException('Id field name is not set via options');
 		}
 	}

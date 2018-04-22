@@ -8,8 +8,8 @@
 		{
 			"name": "eyroot",
 			"role": "Developer"
-        }
-    ],
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"Lx\\": "src/"

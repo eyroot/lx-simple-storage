@@ -4,6 +4,8 @@ namespace Lx\Storage;
 
 abstract class StorageAbstract
 {
+	const FIELD_ID = 'id';
+
 	/**
 	 * @var string
 	 */

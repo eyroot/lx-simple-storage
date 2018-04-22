@@ -28,7 +28,9 @@ class Factory
 		}
 
 		$className = 'Lx\\Storage\\Type\\' . ucwords(strtolower($storageType));
-		return new $className($spaceName, $options);
+		$object = new $className($spaceName, $options);
+		$object->init();
+		return $object;
 	}
 }
 
