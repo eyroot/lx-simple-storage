@@ -45,7 +45,7 @@ $storage->delete(1);
 
 ### Autoincrement ids feature enabled
 
-```
+```php
 use Lx\Storage\Factory as StorageFactory;
 use Lx\Storage\StorageAbstract;
 
