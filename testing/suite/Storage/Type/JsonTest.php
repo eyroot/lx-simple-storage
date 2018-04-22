@@ -94,7 +94,7 @@ class JsonTest extends TestCase
 		$this->assertEquals('item 1 updated', $item['title']);
 
 		// inexistent item
-		$this->assertEquals(false, $this->storage->update(array(), 3));
+		$this->assertFalse($this->storage->update(array(), 3));
 	}
 
 	public function testUpdateException()
@@ -133,6 +133,8 @@ class JsonTest extends TestCase
 		$this->assertNotNull($this->storage->getById(2));
 		$this->storage->delete(2);
 		$this->assertNull($this->storage->getById(2));
+
+		$this->assertFalse($this->storage->delete(3));
 	}
 
 	public function testGetList()

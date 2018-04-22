@@ -6,6 +6,8 @@ abstract class StorageAbstract
 {
 	const FIELD_ID = 'id';
 
+	const AUTOINCREMENT_ID = 'autoincrement';
+
 	/**
 	 * @var string
 	 */

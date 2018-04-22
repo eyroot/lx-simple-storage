@@ -14,6 +14,12 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function init()
 	{
+		// set default options
+		if (!isset($this->options[StorageAbstract::AUTOINCREMENT_ID])) {
+			$this->options[StorageAbstract::AUTOINCREMENT_ID] = false;
+		}
+
+		// check required options
 		$this->checkRequiredIdOption();
 	}
 
@@ -23,6 +29,11 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function insert($data)
 	{
+		// autoincrement support
+		if ($this->isAutoincrement()) {
+			$data[$this->options[StorageAbstract::FIELD_ID]] = $this->getNextId();
+		}
+
 		// check field id is present
 		if (!isset($data[$this->options[StorageAbstract::FIELD_ID]])) {
 			throw new JsonException('Data does not contain id field named '
@@ -79,8 +90,9 @@ class Json extends StorageAbstract implements StorageInterface
 		$stored = $this->readFromFile();
 		if (isset($stored[$id])) {
 			unset($stored[$id]);
+			return $this->writeToFile($stored);
 		}
-		return $this->writeToFile($stored);
+		return false;
 	}
 
 	/**
@@ -201,6 +213,26 @@ class Json extends StorageAbstract implements StorageInterface
 		if (!isset($this->options[StorageAbstract::FIELD_ID])) {
 			throw new JsonException('Id field name is not set via options');
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function isAutoincrement()
+	{
+		return $this->options[StorageAbstract::AUTOINCREMENT_ID];
+	}
+
+	/**
+	 * @return int
+	 */
+	private function getNextId()
+	{
+		$stored = $this->readFromFile();
+		if (count($stored) > 0) {
+			return max(array_keys($stored)) + 1;
+		}
+		return 1;
 	}
 }
 
