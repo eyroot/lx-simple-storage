@@ -4,6 +4,8 @@ A simple storage solution (JSON for a start) written in php.
 
 ## Usage
 
+### Basic
+
 ```php
 use Lx\Storage\Factory as StorageFactory;
 use Lx\Storage\StorageAbstract;
@@ -38,6 +40,35 @@ $list = $storage->getList();
 
 // delete item with id 1
 $storage->delete(1);
+
+```
+
+### Autoincrement ids feature enabled
+
+```
+use Lx\Storage\Factory as StorageFactory;
+use Lx\Storage\StorageAbstract;
+
+// initialize storage of type json
+$storage = StorageFactory::create(
+	StorageFactory::TYPE_JSON, 'items', array(
+		'path' => '/path/directory/storage/json',
+		StorageAbstract::FIELD_ID => 'id' // name of the id field,
+		StorageAbstract::AUTOINCREMENT_ID => true
+	)
+);
+
+// insert items
+$storage->insert(array(
+	'title' => 'item 1'
+));
+$storage->insert(array(
+	'title' => 'item 2'
+));
+
+// get items by id
+$item1 = $this->storage->getById(1);
+$item2 = $this->storage->getById(2);
 
 ```
 
