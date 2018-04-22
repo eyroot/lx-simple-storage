@@ -23,7 +23,18 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function insert($data)
 	{
-		$this->checkRequiredIdOption();
+		// check field id is present
+		if (!isset($data[$this->options[StorageAbstract::FIELD_ID]])) {
+			throw new JsonException('Data does not contain id field named '
+				. $this->options[StorageAbstract::FIELD_ID]);
+		}
+
+		// check field id doesn't already exist (prevent duplicates)
+		$itemWithSameId = $this->getById($data[$this->options[StorageAbstract::FIELD_ID]]);
+		if (null !== $itemWithSameId) {
+			throw new JsonException('Item already exists with id '
+				. $data[$this->options[StorageAbstract::FIELD_ID]]);
+		}
 
 		$stored = $this->readFromFile();
 		$stored[] = $data;
@@ -37,7 +48,10 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function update($data, $id)
 	{
-		$this->checkRequiredIdOption();
+		if (isset($data[$this->options[StorageAbstract::FIELD_ID]])) {
+			throw new JsonException('Data MUST not contain the id field name '
+				. $this->options[StorageAbstract::FIELD_ID]);
+		}
 
 		$stored = $this->readFromFile();
 		foreach ($stored as $k => $item) {
@@ -56,8 +70,6 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function delete($id)
 	{
-		$this->checkRequiredIdOption();
-
 		$stored = $this->readFromFile();
 		foreach ($stored as $k => $item) {
 			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
@@ -73,8 +85,6 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function getById($id)
 	{
-		$this->checkRequiredIdOption();
-
 		foreach ($this->readFromFile() as $item) {
 			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
 				return $item;

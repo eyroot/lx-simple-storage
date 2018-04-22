@@ -47,6 +47,29 @@ class JsonTest extends TestCase
 		$this->assertEquals('item 2', $item['title']);
 	}
 
+	public function testInsertException()
+	{
+		$this->expectException(JsonException::class);
+		$this->expectExceptionMessage('Data does not contain id field named');
+		$this->storage->insert(array(
+			'title' => 'item 1'
+		));
+	}
+
+	public function testInsertExceptionDuplicateId()
+	{
+		$this->storage->insert(array(
+			'id' => 1,
+			'title' => 'item 1'
+		));
+		$this->expectException(JsonException::class);
+		$this->expectExceptionMessage('Item already exists with id');
+		$this->storage->insert(array(
+			'id' => 1,
+			'title' => 'item 2'
+		));
+	}
+
 	public function testUpdate()
 	{
 		$this->storage->insert(array(
@@ -69,6 +92,21 @@ class JsonTest extends TestCase
 		$this->storage->update(array('title' => 'item 1 updated'), 1);
 		$item = $this->storage->getById(1);
 		$this->assertEquals('item 1 updated', $item['title']);
+	}
+
+	public function testUpdateException()
+	{
+		$this->storage->insert(array(
+			'id' => 1,
+			'title' => 'item 1'
+		));
+
+		$this->expectException(JsonException::class);
+		$this->expectExceptionMessage('Data MUST not contain the id field name');
+		$this->storage->update(array(
+			'id' => 2,
+			'title' => 'item 1'
+		), 1);
 	}
 
 	public function testDelete()
