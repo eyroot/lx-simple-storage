@@ -37,7 +37,7 @@ class Json extends StorageAbstract implements StorageInterface
 		}
 
 		$stored = $this->readFromFile();
-		$stored[] = $data;
+		$stored[$data[$this->options[StorageAbstract::FIELD_ID]]] = $data;
 		return $this->writeToFile($stored);
 	}
 
@@ -53,14 +53,20 @@ class Json extends StorageAbstract implements StorageInterface
 				. $this->options[StorageAbstract::FIELD_ID]);
 		}
 
-		$stored = $this->readFromFile();
-		foreach ($stored as $k => $item) {
-			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
-				foreach ($data as $fieldName => $fieldValue) {
-					$stored[$k][$fieldName] = $fieldValue;
-				}
-			}
+		$item = $this->getById($id);
+
+		if (!(is_array($item) && !empty($item))) {
+			// item does not exist
+			return false;
 		}
+
+		foreach ($data as $fieldName => $fieldValue) {
+			$item[$fieldName] = $fieldValue;
+		}
+
+		$stored = $this->readFromFile();
+		$stored[$id] = $item;
+
 		return $this->writeToFile($stored);
 	}
 
@@ -71,10 +77,8 @@ class Json extends StorageAbstract implements StorageInterface
 	public function delete($id)
 	{
 		$stored = $this->readFromFile();
-		foreach ($stored as $k => $item) {
-			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
-				unset($stored[$k]);
-			}
+		if (isset($stored[$id])) {
+			unset($stored[$id]);
 		}
 		return $this->writeToFile($stored);
 	}
@@ -85,10 +89,9 @@ class Json extends StorageAbstract implements StorageInterface
 	 */
 	public function getById($id)
 	{
-		foreach ($this->readFromFile() as $item) {
-			if ($item[$this->options[StorageAbstract::FIELD_ID]] === $id) {
-				return $item;
-			}
+		$stored = $this->readFromFile();
+		if (isset($stored[$id])) {
+			return $stored[$id];
 		}
 		return null;
 	}
