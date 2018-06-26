@@ -29,8 +29,8 @@ $storage->insert(array(
 ));
 
 // get items by id
-$item1 = $this->storage->getById(1);
-$item2 = $this->storage->getById(2);
+$item1 = $storage->getById(1);
+$item2 = $storage->getById(2);
 
 // update item with id 2
 $storage->update(array('title' => 'item 2 title updated'), 2);
@@ -67,8 +67,8 @@ $storage->insert(array(
 ));
 
 // get items by id
-$item1 = $this->storage->getById(1);
-$item2 = $this->storage->getById(2);
+$item1 = $storage->getById(1);
+$item2 = $storage->getById(2);
 
 ```
 
