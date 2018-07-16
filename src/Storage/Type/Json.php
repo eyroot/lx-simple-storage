@@ -4,7 +4,6 @@ namespace Lx\Storage\Type;
 
 use Lx\Storage\StorageInterface;
 use Lx\Storage\StorageAbstract;
-use Lx\Storage\Type\JsonException;
 
 class Json extends StorageAbstract implements StorageInterface
 {
@@ -134,7 +133,7 @@ class Json extends StorageAbstract implements StorageInterface
 
 	/**
 	 * @param string $data
-	 * @param book $assoc
+	 * @param bool $assoc
 	 * @return array
 	 */
 	private function decode($data, $assoc = true)

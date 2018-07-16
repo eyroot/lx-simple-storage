@@ -2,9 +2,6 @@
 
 namespace Lx\Storage;
 
-use Lx\Storage\StorageException;
-use Ls\Storage\StorageInterface;
-
 class Factory
 {
 	const TYPE_JSON = 'json';
