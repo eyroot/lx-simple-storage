@@ -1,6 +1,6 @@
 # lx-simple-storage
 
-A simple storage solution (JSON for a start) written in php.
+Storage solution with JSON and PHP.
 
 ## Usage
 
@@ -35,7 +35,7 @@ $item2 = $storage->getById(2);
 // update item with id 2
 $storage->update(array('title' => 'item 2 title updated'), 2);
 
-// retrieve all items
+// retrieve items
 $list = $storage->getList();
 
 // delete item with id 1
@@ -75,18 +75,21 @@ $item2 = $storage->getById(2);
 ## Development set-up
 
 * Clone project locally:
+
 ```
 git clone https://github.com/eyroot/lx-simple-storage lx-simple-storage
 cd lx-simple-storage
 ```
 
 * Set-up project and install composer deps:
+
 ```
 composer install
 ```
 
 * Run unit testing:
 ! in case you get the "Error: No code coverage driver is available" when running the test suite, remember to install and enable the php-xdebug extension !
+
 ```
 cd testing/
 mkdir data-storage

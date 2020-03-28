@@ -154,6 +154,47 @@ class JsonTest extends TestCase
 		$this->assertEquals(2, $list[2]['id']);
 	}
 
+	public function testGetListConditions()
+	{
+	    $this->storage->insert(array(
+	        'id' => 1,
+	        'title' => 'item 1'
+	    ));
+	    $this->storage->insert(array(
+	        'id' => 2,
+	        'title' => 'item 2'
+	    ));
+
+	    // test where condition
+	    $list = $this->storage->getList(
+	        array('title' => 'item 2')
+	    );
+	    $this->assertTrue(is_array($list));
+	    $this->assertEquals(1, count($list));
+	    $this->assertEquals(2, $list[0]['id']);
+
+	    // test sorting
+	    $list = $this->storage->getList(
+	        array(),
+	        array('title', 'desc', SORT_STRING)
+	    );
+	    $this->assertTrue(is_array($list));
+	    $this->assertEquals(2, count($list));
+	    $this->assertEquals(2, $list[0]['id']);
+	    $this->assertEquals('item 2', $list[0]['title']);
+	    $this->assertEquals(1, $list[1]['id']);
+	    $this->assertEquals('item 1', $list[1]['title']);
+
+	    // test limit
+	    $list = $this->storage->getList(
+	        array(), array(), array(1, 1)
+	    );
+	    $this->assertTrue(is_array($list));
+	    $this->assertEquals(1, count($list));
+	    $this->assertEquals(2, $list[0]['id']);
+	    $this->assertEquals('item 2', $list[0]['title']);
+	}
+
 	public function testExceptionId()
 	{
 		$this->expectException(JsonException::class);

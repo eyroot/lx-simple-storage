@@ -4,6 +4,7 @@ namespace Lx\Storage\Type;
 
 use Lx\Storage\StorageInterface;
 use Lx\Storage\StorageAbstract;
+use Lx\Storage\Support;
 
 class Json extends StorageAbstract implements StorageInterface
 {
@@ -108,16 +109,43 @@ class Json extends StorageAbstract implements StorageInterface
 	}
 
 	/**
-	 * @param array $where
-	 * @param array $sort
-	 * @param array $limit
+	 * @param array $where - ex: ['name' => 'item 1']
+	 * @param array $sort - ex: ['name', 'asc', SORT_STRING]
+	 * @param array $limit - ex: [1, 2]
 	 * @return array
 	 */
 	public function getList($where = array(), $sort = array(), $limit = array())
 	{
 		$stored = $this->readFromFile();
 
-		//@TODO: implement support for additional arguments
+		// where condition
+		if (count($where) > 0) {
+			$result = array();
+			foreach ($stored as $key => $item) {
+				foreach ($where as $name => $value) {
+					if (!(isset($item[$name]) && $value === $item[$name])) {
+						continue 2;
+					}
+				}
+				$result[] = $item;
+			}
+			$stored = $result;
+		}
+
+		// sort
+		if (isset($sort[0])) {
+			$sortField = $sort[0];
+			$sortDirection = isset($sort[1]) ? $sort[1] : 'asc';
+			$sortType = isset($sort[2]) ? $sort[2] : SORT_STRING;
+			$stored = Support::arraySort($stored, $sortField, $sortType, $sortDirection);
+		}
+
+		// limit
+		if (isset($limit[0]) && isset($limit[1])) {
+			$offset = $limit[0];
+			$length = $limit[1];
+			$stored = array_slice($stored, $offset, $length);
+		}
 
 		return $stored;
 	}

@@ -1,6 +1,6 @@
 {
 	"name": "eyroot/lx-simple-storage",
-	"description": "A simple storage solution (JSON, etc) written in php",
+	"description": "Storage solution with JSON and PHP",
 	"type": "library",
 	"keywords": ["php", "storage", "json"],
 	"license": ["GPL-3.0-only"],
